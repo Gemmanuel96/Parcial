@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --color-primario: #ff6347;
+    --color-fondo: #f0f0f0;
+    --color-texto: #333;
+    --color-blanco: #fff;
+    --color-borde: #ddd;
+    --color-focus: #ff4500;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--color-fondo);
+}
+
+header{
+    width: 100%;
+}
+.titulo {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    height: auto;
+    width:100%;
+    color: #f0f0f0;
+    background-color:#ff6347 ;
+}
+
+.titulo a{
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 3em;
+    color: #333;
+    font-weight: 600;
+    font-size: large;
+}
+
+.titulo h1{
+    color: #333;
+    text-transform: uppercase;
+}
+
+.titulo a:hover{
+    color: #f0f0f0;
+    transition: 300ms all ease-in-out;
+}
+
+
+main{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+}
+
+#productos-box{
+    overflow: auto;
+    display: flex;
+    padding: 10px 10px;
+    flex-direction: column;
+    border: 2px solid black;
+    width: 40em;
+    height: 30em;
+    background-color: #f0f0f0;
+    margin: 2em 2em;
+    border-radius: 5px;
+    box-shadow: 2px 2px;
+}
+
+.producto-item{
+    padding: 10px;
+    margin-top: 30px;
+    height: 5em;
+    display: flex;
+    flex-direction: row;
+    border: #333 solid 1px;
+    margin: 4px 4px;
+}
+
+.producto-item img{
+    width: 5em;
+    border-radius: 6px;
+    /* height: 3em; */;
+    opacity: 0.8;
+
+}
+
+.detalle-item h3{
+    margin-left: 8px;
+}
+
+.detalle-item p{
+    margin-left: 8px;
+    font-size: 10px;
+
+}
+
+#total{
+    width: 30em;
+    background-color:#f0f0f0;
+    height: 15pc;
+    border-radius: 15px;
+    border: 2px solid black;
+    box-shadow: 2px 2px;
+}
+
+#detalle{
+    width: 30px;
+    height: 30px;
+    border: #333 solid;
+}
+
+.controles-item{
+    justify-content: flex-end;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    padding: 10px;
+    gap: 10px;
+}
+
+
+.controles-item button{
+    padding: 5px;
+    font-weight: 600;
+}
