@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="cart.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
 </head>
+
 <body>
 
     <header>
@@ -16,21 +18,44 @@
 
     </header>
 
-    <main>
+    <main id="main">
 
+        
         <!-- Productos -->
-        <section id="productos-box">
+        <section>
+            <div id="productos-box">
+
+            </div>
 
 
         </section>
 
+        <div id="mensaje">
+            <p>Tu carrito de produtos esta vacio</p>
+        </div>
+
+
         <!-- Total -->
-        <section id="total">
+        <section id="total-box">
+
+            <h3>Resumen</h3>
+
+            <div id="subtotal">
+
+            </div>
+
+            <div id="total">
+
+            </div>
+
+            <button id="btn-finalizar">Finalizar compra</button>
+            <button id="btn-vaciar"> Vaciar Carrito</button>
 
         </section>
 
     </main>
-    
+
     <script type="module" src="cart.ts"></script>
 </body>
+
 </html>
