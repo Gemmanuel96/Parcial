@@ -16,6 +16,7 @@ export const checkAuhtUser = (
     console.log("no existe en local");
     navigate(redireccion1);
     return;
+    
   } else {
     console.log("existe pero no tiene el rol necesario");
 

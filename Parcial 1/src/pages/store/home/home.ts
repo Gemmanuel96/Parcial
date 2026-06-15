@@ -2,45 +2,70 @@ import { categorias } from "../../../data/data";
 import { PRODUCTS } from "../../../data/data";
 import type { Product } from "../../../types/Product";
 
+
 // 🔹 Seleccionamos la lista de categorías en la barra lateral
-const categoriaList = document.querySelector<HTMLUListElement>("#categoria-list");
-console.log(categoriaList);
+
 
 function mostrarCategorias() {
-    // Recorremos todas las categorías y las mostramos en la lista lateral
+    const categoriaList = document.querySelector<HTMLUListElement>("#lista-categorias");
+
     categorias.forEach(categoria => {
-        const li = document.createElement("li") as HTMLElement;
+        const li = document.createElement("li");
         li.textContent = categoria.nombre;
         categoriaList?.appendChild(li);
 
-        // Evento: al hacer click en una categoría, filtramos productos
-        li?.addEventListener("click", (Event: MouseEvent) => {
-            Event.preventDefault();
+        li.addEventListener("click", (event: MouseEvent) => {
+            event.preventDefault();
 
-            const contenedor = document.querySelector<HTMLDivElement>("#productos");
+            // 🔹 Quitar activo de todas
+            const todas = document.querySelectorAll("#lista-categorias li");
+            todas.forEach(c => c.classList.remove("activo"));
+
+            // 🔹 Marcar solo la clickeada
+            li.classList.add("activo");
+
+            // 🔹 Filtrar productos
+            const contenedor = document.querySelector<HTMLDivElement>("#productos-items");
             const categoriaFiltro = categoria.nombre;
-
-            // Filtramos productos que tengan esa categoría (filter + some)
-            const filtrados = PRODUCTS.filter(p => p.categorias.some(c => c.nombre === categoriaFiltro));
-            console.log(filtrados);
+            const filtrados = PRODUCTS.filter(p =>
+                p.categorias.some(c => c.nombre === categoriaFiltro)
+            );
 
             if (contenedor) {
                 contenedor.innerHTML = "";
-                mostrarProductos(filtrados); // mostramos solo los filtrados
+                mostrarProductos(filtrados);
             }
-        })
-    })
+        });
+    });
+
+    // 🔹 Caso especial: Todos los productos
+    const allProductos = document.querySelector<HTMLLIElement>("#all-products");
+    allProductos?.addEventListener("click", () => {
+        // Quitar activo de todas
+        const todas = document.querySelectorAll("#lista-categorias li");
+        todas.forEach(c => c.classList.remove("activo"));
+
+        // Marcar solo "Todos"
+        allProductos.classList.add("activo");
+
+        // Mostrar todos los productos
+        mostrarProductos(PRODUCTS);
+    });
 }
+
 mostrarCategorias();
 
+
 // 🔹 Evento para mostrar todos los productos sin filtro - Btn Todos los productos
-const allProductos = document.querySelector<HTMLLIElement>("#all-productos");
-allProductos?.addEventListener("click", () => {
-    mostrarProductos(PRODUCTS);
-});
+//const allProductos = document.querySelector<HTMLLIElement>("#all-products");
+//allProductos?.addEventListener("click", () => {
+//  allProductos.classList.add("activo");
+//mostrarProductos(PRODUCTS);
+//});
+
 
 // 🔹 Contenedor principal de productos
-const contenedorProductos = document.querySelector<HTMLDivElement>("#productos");
+const contenedorProductos = document.querySelector<HTMLDivElement>("#productos-items");
 
 function mostrarProductos(productos: Product[]) {
     // Limpiamos antes de renderizar
@@ -51,41 +76,53 @@ function mostrarProductos(productos: Product[]) {
     // Recorremos y mostramos cada producto
     productos.forEach(productos => {
         const articulo = document.createElement("article");
+        articulo.classList.add("p-articulo");
 
         const imagen = document.createElement("img");
+        imagen.classList.add("p-imagen");
         imagen.src = productos.imagen;
 
-        const nombre = document.createElement("h3");
-        nombre.textContent = productos.nombre;
+        const pDetalles = document.createElement("div")
+        pDetalles.classList.add("p-caracteristica");
+
+        //Elementos de detalle
+        const categoria = document.createElement("p");
+        categoria.classList.add("p-categoria");
+        categoria.textContent = productos.categorias.map(cat => cat.nombre).join(",");
+
+        const titulo = document.createElement("h3");
+        titulo.classList.add("p-titulo")
+        titulo.textContent = productos.nombre;
 
         const descripcion = document.createElement("p");
+        descripcion.classList.add("p-descripcion")
         descripcion.textContent = productos.descripcion;
 
         const precio = document.createElement("p");
         precio.textContent = `Precio: $ ${productos.precio}`;
-        precio.classList.add("precio");
+        precio.classList.add("p-precio");
 
-        // Botón para agregar al carrito
-        const btnAgregar = document.createElement("button") as HTMLButtonElement;
-        btnAgregar.textContent = "Agregar a carrito";
-        btnAgregar.classList.add("agregar");
+        const disponible = document.createElement("p");
+        disponible.classList.add("p-disponible");
 
-        // Armamos el artículo
+        if (productos.disponible == true) {
+            disponible.textContent = "Disponible";
+        } else {
+            disponible.textContent = "No disponible";
+        }
+
+        pDetalles.appendChild(categoria);
+        pDetalles.appendChild(titulo);
+        pDetalles.appendChild(descripcion);
+        pDetalles.appendChild(precio);
+        pDetalles.appendChild(disponible);
+
         articulo.appendChild(imagen);
-        articulo.appendChild(nombre);
-        articulo.appendChild(descripcion);
-        articulo.appendChild(precio);
-        articulo.appendChild(btnAgregar);
+        articulo.appendChild(pDetalles);
 
-        // Evento: al hacer click, guardamos producto en localStorage
-        btnAgregar.addEventListener("click", () => {
-            const carrito = localStorage.getItem("carrito");
-            const carritoProductos: Product[] = carrito ? JSON.parse(carrito) : [];
-            carritoProductos.push(productos);
-            localStorage.setItem("carrito", JSON.stringify(carritoProductos));
-            console.log("Producto agregado al carrito");
-            mostrarAlerta();        // mostramos alerta temporal
-            mostrarValorCarrito();  // actualizamos contador del carrito
+        articulo.addEventListener("click", (event: MouseEvent) =>{
+
+            
         })
 
         contenedorProductos?.appendChild(articulo);

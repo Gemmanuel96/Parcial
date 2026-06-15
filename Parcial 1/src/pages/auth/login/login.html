@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <link rel="stylesheet" href="./login.css">
+    <link rel="stylesheet" href="login.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login 🍕</title>
@@ -11,14 +11,16 @@
 <body>
     <main>
 
+        <!-- Caja de Formulario -->
         <div class="form-container">
 
             <h1>food store</h1>
             <h2>Iniciar Sesion</h2>
 
-            <form action="" class="formulario" id="formulario-login">
+            <!-- Formulario -->
+            <form action="" class="formulario" id="formulario">
 
-                <div id="inputs-box" class="inputs-box">
+                <div id="inputs" class="inputs">
                     <!-- Email -->
                     <label for="email">Email:</label>
                     <input type="email" name="email" id="email" placeholder="tucorreo@ejemplo.com" required>
@@ -32,11 +34,13 @@
 
             </form>
 
-            <div id="enlace-registro" class="login-container">
-                <p>¿No tenés cuenta? <a href="../registro/registro.html" class="enlace">Registrate acá</a></p>
+            <div class="usuarios-prueba">
+                <h3>Cuentas prueba: </h3>
+                <p>Admin: admin@admin.com</p>
+                <p>Usuario: usuario@user.com</p>
             </div>
 
-        </section>
+            </section>
 
     </main>
     <script src="login.ts" type="module"></script>

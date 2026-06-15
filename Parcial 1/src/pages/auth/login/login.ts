@@ -1,8 +1,11 @@
 import type { IUser } from "../../../types/IUser";
 import { saveUser } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
+import { usuarios} from "../../../data/data";
 
-const form = document.querySelector<HTMLFormElement>("#formulario-login");
+
+
+const form = document.querySelector<HTMLFormElement>("#formulario");
 
 form?.addEventListener("submit", (event: SubmitEvent) => {
 
@@ -17,8 +20,8 @@ form?.addEventListener("submit", (event: SubmitEvent) => {
   const inputContrasenia = formData.get("contrasenia") as string;
 
   //Traemos los datos de localStorage
-  const usuariosGuardados = localStorage.getItem("users");
-  const usuarios: IUser[] = usuariosGuardados ? JSON.parse(usuariosGuardados) : [];
+  //const usuariosGuardados = localStorage.getItem("users");
+  //const usuarios: IUser[] = usuariosGuardados ? JSON.parse(usuariosGuardados) : [];
 
   const usuarioEncontrado = usuarios.find((u: IUser) => u.email === inputImail && u.contrasenia === inputContrasenia);
 
@@ -26,7 +29,6 @@ form?.addEventListener("submit", (event: SubmitEvent) => {
 
   if (usuarioEncontrado) {
     saveUser(usuarioEncontrado);
-
 
     if(usuarioEncontrado.rol === "admin"){
       navigate("/src/pages/admin/home/home.html");

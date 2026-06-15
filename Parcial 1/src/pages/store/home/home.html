@@ -4,45 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra productos</title>
 </head>
 
 <body>
 
+
     <!-- Header con links al carrito y al catalogo -->
     <header>
-        <div class="encabezado-box uno">
+        <div class="titulo">
             <h1>🍕Food Store</h1>
         </div>
 
-        <div class="encabezado-box dos">
-            <a href="">Catalogo</a>
-            <a href="../cart/cart.html">Carrito (<span id="valor-carrito" class="valor-carrito"></span>)</a>
+        <div class="enlaces">
+            <a href="#">Inicio</a>
+            <a href="">Mis Pedidos</a>
+            <a href="../../client/home/home.html">Mi Usuario</a>
+            <a href="../cart/cart.html">Carrito🛒(<span id="valor-carrito" class="valor-carrito"></span>)</a>
         </div>
+        <button>Cerrar Sesion ⛔</button>
 
     </header>
+
+
 
     <!--Main  -->
     <main>
 
         <!-- Seccion de categorias -->
-        <section id="categorias-var">
+        <section class="box-categoria">
             <h2>Categorias</h2>
+            <p>Filtrar por categoria</p>
 
-            <ul id="categoria-list">
-                <li id="all-productos" value="todos">Todos los productos</li>
+            <!-- Lista de Categorias -->
+            <ul id="lista-categorias">
+                <li id="all-products">Todos los productos</li>
+
             </ul>
+
         </section>
 
         <!-- Seccion  de productos -->
         <section id="productos-box">
 
             <!-- Buscador de productos-->
-            <div class="buscador">
-                <input type="text" id="buscador" name="buscador" placeholder="🔎 Buscar ">
+            <div class="box-busqueda">
+                <input type="text" id="buscador" name="buscador" placeholder="🔎 Buscar productos... ">
+
+                <!-- Seleccionado por Ordenamiento -->
+                <select name="" id="Ordenado">Ordenado por
+                    <option value="">Nombre</option>
+                    <option value="">Precio</option>
+                </select>
+
+                <!-- Seleccionado por Categoria -->
+                <select name="" id="Categoria">Categoria
+                    <option value="">Hamburguesa</option>
+                    <option value="">Pizza</option>
+                </select>
             </div>
+
 
             <!-- Alerta de producto agregado al carrito -->
             <div id="alerta" class="alerta">
@@ -50,11 +72,25 @@
             </div>
 
             <!-- Caja de Productos (Items) -->
-            <div id="productos">
+            <div id="productos-items">
 
+                <article class="p-articulo">
+                    <img class="p-imagen" src="" alt="" height="150" width="200">
+
+                    <div class="p-caracteristica" id="p-caracteristicas">
+                        <p class="p-categoria">Categoria</p>
+                        <h3 class="p-titulo">Hamburguesa con queso</h3>
+                        <p class="p-descripcion">Lorem ipsum dolor sit amet.</p>
+                        <p class="p-precio">Precio</p>
+                        <p class="p-disponible">Disponibilidad</p>
+                    </div>
+                </article>
             </div>
 
+
+
         </section>
+        
     </main>
 
     <script type="module" src="home.ts"></script>

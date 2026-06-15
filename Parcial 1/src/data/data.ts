@@ -1,7 +1,25 @@
 // src/utils/data.ts
 import type { Product } from "../types/Product";
 import type { ICategorias } from "../types/Categorias";
+import type { IUser } from "../types/IUser";
 
+export const usuarios: IUser[] = [
+
+  {
+    nombreCompleto: "Usuario Default",
+    contrasenia: "123456",
+    email: "usuario@user.com",
+    rol:"client",
+
+  },
+  {
+    nombreCompleto:"Admin Default",
+    contrasenia: "123456",
+    email:"admin@admin.com",
+    rol:"admin"
+  }
+  
+];
 
 export const categorias: ICategorias[] = [
   {
