@@ -17,6 +17,8 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     width: 100vw;
     font-family: 'Montserrat', sans-serif;
@@ -24,121 +26,139 @@ body {
 }
 
 header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
+    height: 5em;
+    border-bottom: var(--color-borde) 3px solid;
 }
 
-.titulo {
+header h1{
+    text-transform: uppercase;
+    color: #ff6347;
+}
+
+header nav{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 10px;
-    height: auto;
-    width: 100%;
-    color: #f0f0f0;
-    background-color: #ff6347;
+    /* background-color: aqua; */
+    width: 40em;
+    padding: 15px;
 }
 
-.titulo a {
+header nav a{
     text-decoration: none;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0 3em;
-    color: #333;
+    color: var(--color-texto);
+    font-size: 20px;
     font-weight: 600;
+}
+
+header nav a:hover {
+    color: #ff6347;
+    transition: all 300ms ease-in-out;
+}
+
+header nav a:focus{
+    color: #ff4500;
+}
+
+
+header button{
+    /* font-weight: 600; */
     font-size: large;
+    padding: 0.8em 1.5em;
+    border-radius: 1em;
+    width: 200px;
 }
 
-.titulo h1 {
-    color: #333;
-    text-transform: uppercase;
+header button:hover{
+    background-color: #ff6347;
+    color: var(--color-blanco);
+    font-weight: 600;
 }
 
-.titulo a:hover {
-    color: #f0f0f0;
-    transition: 300ms all ease-in-out;
+header button:focus{
+    background-color: #ff4500;
 }
 
+/* ----------------------------- */
 
 main {
     display: flex;
     flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+#box1{
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 90%;
+    flex: 0 0 65%;
+    background: var(--color-blanco);
 }
 
-#productos-box{
-    overflow-y: auto;
+#box1 h2{
+    margin: 10px;
+}
+
+#box2{
     display: flex;
-    padding: 10px 10px;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    border: 2px solid black;
-    width: 40em;
-    max-height: 30em;
-    background-color: #f0f0f0;
-    margin: 2em 2em;
-    border-radius: 5px;
-    box-shadow: 2px 2px;
+    flex: 0 0 35%;
+    background-color:var(--color-blanco );
 }
 
-.producto-item {
-    padding: 10px;
-    margin-top: 30px;
-    height: 5em;
+
+
+#carrito-box{
     display: flex;
-    flex-direction: row;
-    border: #333 solid 1px;
-    margin: 4px 4px;
-}
-
-.producto-item img {
-    /* width: 5em; */
-    border-radius: 6px;
-    /* height: 3em; */
-    ;
-    opacity: 0.8;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    height: 85%;
+    background-color: var(--color-borde);
+    border-radius: 10px;
+    border: var(--color-borde) 1px solid;
+    box-shadow: 3px 5px #3333337d;
 
 }
 
-.detalle-item h3 {
-    margin-left: 8px;
-}
-
-.detalle-item p {
-    margin-left: 8px;
-    font-size: 10px;
-
-}
 
 #total-box {
-    padding: 15px;
+    margin-top: 3em;
     display: flex;
-    flex-direction: column;
-    width: 25em;
-    background-color: #f0f0f0;
-    /* height: 15pc; */
-    border-radius: 15px;
-    border: 2px solid black;
-    box-shadow: 2px 2px;
+    height: 75%;
+    width: 80%;     
+    background-color: var(--color-borde);
+    border-radius: 5px;
+    box-shadow: 3px 5px  #3333337d;
+
 }
 
-#detalle {
-    width: 30px;
-    height: 30px;
-    border: #333 solid;
-}
+/* --------------------------------- */
 
-.controles-item {
-    justify-content: flex-end;
-    background-color: #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: auto;
+#productos-list{
     padding: 10px;
-    gap: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    border: #333 solid 1px;
 }
 
+#detalles{
+    font-size: medium;
+}
+
+
+/* ------------------------ */
 
 .controles-item button {
     padding: 5px;
@@ -146,9 +166,9 @@ main {
 }
 
 #mensaje{
-    display: none;
-    margin:auto;
-    padding: 10em;
+    /* display: ; */
+    width: 100%;
+    height: 100%;
     /* border: #333 solid 1px; */
 }
 

@@ -3,6 +3,11 @@ import { PRODUCTS } from "../../../data/data";
 import type { Product } from "../../../types/Product";
 
 
+if (!localStorage.getItem("carrito")) {
+    localStorage.setItem("carrito", JSON.stringify([]))
+}
+
+
 // 🔹 Seleccionamos la lista de categorías en la barra lateral
 
 
@@ -56,14 +61,6 @@ function mostrarCategorias() {
 mostrarCategorias();
 
 
-// 🔹 Evento para mostrar todos los productos sin filtro - Btn Todos los productos
-//const allProductos = document.querySelector<HTMLLIElement>("#all-products");
-//allProductos?.addEventListener("click", () => {
-//  allProductos.classList.add("activo");
-//mostrarProductos(PRODUCTS);
-//});
-
-
 // 🔹 Contenedor principal de productos
 const contenedorProductos = document.querySelector<HTMLDivElement>("#productos-items");
 
@@ -109,6 +106,7 @@ function mostrarProductos(productos: Product[]) {
             disponible.textContent = "Disponible";
         } else {
             disponible.textContent = "No disponible";
+            disponible.style.backgroundColor = "red";
         }
 
         pDetalles.appendChild(categoria);
@@ -119,11 +117,6 @@ function mostrarProductos(productos: Product[]) {
 
         articulo.appendChild(imagen);
         articulo.appendChild(pDetalles);
-
-        articulo.addEventListener("click", (event: MouseEvent) =>{
-
-            
-        })
 
         contenedorProductos?.appendChild(articulo);
     })
@@ -152,23 +145,17 @@ buscador?.addEventListener("input", () => {
 })
 
 // 🔹 Función para mostrar alerta temporal al agregar producto
-function mostrarAlerta() {
-    const alerta = document.querySelector<HTMLDivElement>("#alerta");
-    if (alerta) {
-        alerta.style.display = "flex";
-        setTimeout(() => {
-            alerta.style.display = "none";
-        }, 2000);
-    }
-}
+
 
 // 🔹 Actualizamos el valor del carrito en la barra superior
-const valorCarrito = document.querySelector<HTMLElement>("#valor-carrito");
+const valorCarrito = document.querySelector<HTMLSpanElement >("#valor-carrito");
+
 function mostrarValorCarrito() {
     const carrito = localStorage.getItem("carrito");
-    const carritoProdu: Product[] = carrito ? JSON.parse(carrito) : [];
+    const carritoProdu: Product[] = carrito ? JSON.parse(carrito) : "[]";
     if (valorCarrito) {
         valorCarrito.textContent = carritoProdu.length.toString();
     }
 }
+
 mostrarValorCarrito();

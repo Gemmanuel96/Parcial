@@ -6,7 +6,7 @@ const carrito = localStorage.getItem("carrito");
 const productoCarrito: Product[] = carrito ? JSON.parse(carrito) : [];
 
 // Contenedor principal donde se mostrarán los productos
-const productosBox = document.querySelector<HTMLElement>("#productos-box");
+const productosBox = document.querySelector<HTMLElement>("#carrito-box");
 console.log(productosBox);
 
 // 🔹 Agrupación de productos por id usando reduce
@@ -23,18 +23,26 @@ const agrupados: Product[] = Object.values(
     }, {})
 );
 
+const main = document.querySelector<HTMLElement>("#main");
+
+//------------------------------------------------------------------------------
 // 🔹 Función para mostrar el carrito en pantalla
 function mostrarCarrito() {
+
     // Si el carrito está vacío, mostramos mensaje y ocultamos cajas
     if (productoCarrito.length === 0) {
         const mensaje = document.querySelector<HTMLElement>("#mensaje");
-        const productoBox = document.querySelector<HTMLElement>("#productos-box")
+        const productoBox = document.querySelector<HTMLElement>("#carrito-box")
         const total = document.querySelector<HTMLElement>("#total-box")
-        if (mensaje && productoBox && total) {
+
+        if (mensaje && productoBox && total && main != null) {
+            main.innerHTML = "";
             productoBox.style.display = "none";
             total.style.display = "none";
             mensaje.style.display = "block";
+            main.appendChild(mensaje);
         }
+
     } else {
         // Si hay productos, los renderizamos uno por uno
         agrupados.forEach(producto => {
@@ -174,35 +182,3 @@ function mostrarTotal() {
 
 mostrarTotal();
 
-// 🔹 Botón para vaciar carrito
-const btnVaciarCarrito = document.querySelector<HTMLButtonElement>("#btn-vaciar");
-btnVaciarCarrito?.addEventListener("click", (Event: MouseEvent) => {
-    productoCarrito.length = 0; // vaciamos array
-    localStorage.setItem("carrito", JSON.stringify(productoCarrito)); // persistimos vacío
-    mostrarCarrito(); // refrescamos vista
-    mostrarTotal();   // refrescamos total
-})
-
-
-// 🔹 Botón para finalizar compra
-const btnFinalizar = document.querySelector<HTMLButtonElement>("#btn-finalizar");
-btnFinalizar?.addEventListener("click", (Event: MouseEvent) => {
-
-    const total = document.querySelector<HTMLElement>("#total-box");
-    const confirmacion = document.createElement("div");
-    
-    confirmacion.classList.add("confirmacion");
-    const mensaje = document.createElement("p");
-    
-    mensaje.textContent = "Compra confirmada!";
-    confirmacion.appendChild(mensaje);
-
-    if (total) {
-        confirmacion.style.display = "block"
-        total.appendChild(confirmacion);
-        // Ocultamos el mensaje después de 2 segundos
-        setTimeout(() => {
-            confirmacion.style.display = "none";
-        }, 2000);
-    }
-})

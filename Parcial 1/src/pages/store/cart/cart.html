@@ -11,47 +11,66 @@
 <body>
 
     <header>
-        <div class="titulo">
-            <h1>🍕Food Store</h1>
-            <a href="../home/home.html"> Catalogo</a>
-        </div>
+        <h1>🍕Food Store</h1>
+
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Mis Pedidos</a>
+            <a href="../home/home.html">Tienda</a>
+            <a href="../../client/home/home.html">Mi Usuario</a>
+        </nav>
+
+        <button id="btn-menu">Cerrar Sesion</button>
 
     </header>
 
-    <main id="main">
+    <main id="productos-main">
 
-        
+
         <!-- Productos -->
-        <section>
-            <div id="productos-box">
+        <section id="box1">
+
+            <!-- <h2>Mi Carrito</h2> -->
+
+            <div id="carrito-box">
+
+                <article id="productos-list">
+                    <img src="" alt="" width="150px" height="150px">
+
+                    <div id="detalles">
+                        <h3>Nombre producto</h3>
+                        <p>detalle</p>
+                        <h4>Precio</h4>
+                    </div>
+
+                    <div id="controles">
+                        <p> controles</p>
+                    </div>
+
+                    <h4 id="acumulado">Total</h4>
+                    <button> E</button>
+
+                </article>
 
             </div>
 
 
         </section>
 
+        <!-- Total -->
+        <section id="box2">
+
+
+            <div id="total-box">
+
+            </div>
+
+        </section>
+
+        <!-- Mensaje en Pantalla (Carrito Vacio) -->
         <div id="mensaje">
             <p>Tu carrito de produtos esta vacio</p>
         </div>
-
-
-        <!-- Total -->
-        <section id="total-box">
-
-            <h3>Resumen</h3>
-
-            <div id="subtotal">
-
-            </div>
-
-            <div id="total">
-
-            </div>
-
-            <button id="btn-finalizar">Finalizar compra</button>
-            <button id="btn-vaciar"> Vaciar Carrito</button>
-
-        </section>
 
     </main>
 
