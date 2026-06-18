@@ -1,39 +1,27 @@
 import type { Product } from "../../../types/Product";
-
-// Recuperamos el carrito desde localStorage
+import { logout } from "../../../utils/auth";
+//Traemos del localStorage el carrito
 const carrito = localStorage.getItem("carrito");
-// Si existe, lo parseamos a array de productos; si no, inicializamos vacío
-const productoCarrito: Product[] = carrito ? JSON.parse(carrito) : [];
+const productosCarrito: Product[] = carrito ? JSON.parse(carrito) : [];
 
-// Contenedor principal donde se mostrarán los productos
-const productosBox = document.querySelector<HTMLElement>("#carrito-box");
-console.log(productosBox);
+console.log(productosCarrito);
 
 // 🔹 Agrupación de productos por id usando reduce
-const agrupados: Product[] = Object.values(
-    productoCarrito.reduce((acc: any, prod: Product) => {
-        if (!acc[prod.id]) {
-            // Si no existe el producto en el acumulador, lo agregamos con cantidad inicial 0
-            acc[prod.id] = { ...prod, cantidad: 0 };
-        } else {
-            // Si ya existe, incrementamos la cantidad
-            acc[prod.id].cantidad += 1;
-        }
-        return acc;
-    }, {})
-);
+const agrupados: Product[] = agruparProductos(productosCarrito);
 
-const main = document.querySelector<HTMLElement>("#main");
+
+
 
 //------------------------------------------------------------------------------
 // 🔹 Función para mostrar el carrito en pantalla
 function mostrarCarrito() {
 
     // Si el carrito está vacío, mostramos mensaje y ocultamos cajas
-    if (productoCarrito.length === 0) {
+    if (productosCarrito.length === 0) {
+        const main = document.querySelector<HTMLElement>("#productos-main")
         const mensaje = document.querySelector<HTMLElement>("#mensaje");
-        const productoBox = document.querySelector<HTMLElement>("#carrito-box")
-        const total = document.querySelector<HTMLElement>("#total-box")
+        const productoBox = document.querySelector<HTMLElement>("#box1")
+        const total = document.querySelector<HTMLElement>("#box2")
 
         if (mensaje && productoBox && total && main != null) {
             main.innerHTML = "";
@@ -45,6 +33,8 @@ function mostrarCarrito() {
 
     } else {
         // Si hay productos, los renderizamos uno por uno
+        const carritoBox = document.querySelector<HTMLElement>("#carrito-box");
+
         agrupados.forEach(producto => {
             // Contenedor del producto
             const productoItem = document.createElement("div");
@@ -85,7 +75,8 @@ function mostrarCarrito() {
             productoItem.appendChild(detalle);
             productoItem.appendChild(controles);
 
-            productosBox?.appendChild(productoItem);
+            if (carritoBox)
+            carritoBox.appendChild(productoItem);
 
             // 🔹 Botones de control
             const btnMenos = document.createElement("button");
@@ -121,35 +112,66 @@ function mostrarCarrito() {
 
 mostrarCarrito();
 
+
+
+function agruparProductos(productos: Product[]): Product[] {
+
+    const agrupados: Product[] = Object.values(
+        productos.reduce((acc: any, prod: Product) => {
+
+            //Sino existe la lista de ese producto id, la crea con cantidad 0
+            if (!acc[prod.id]) {
+                acc[prod.id] = { ...prod, cantidad: 0 };
+            } else {
+                //Si existe, suma 1
+                acc[prod.id].cantidad += 1;
+            }
+            return acc;
+        }, {})
+    );
+
+    return agrupados;
+}
+
+
+const btnSesion = document.querySelector<HTMLButtonElement>("#btn-sesion");
+
+btnSesion?.addEventListener("click", () => {
+    logout();
+});
+
+
+
 // 🔹 Funciones auxiliares para manejar el carrito
 function agregarProducto(prod: Product) {
-    productoCarrito.push(prod);
-    localStorage.setItem("carrito", JSON.stringify(productoCarrito));
+    productosCarrito.push(prod);
+    localStorage.setItem("carrito", JSON.stringify(productosCarrito));
 }
 
 function eliminarProducto(prod: Product) {
-    const index = productoCarrito.findIndex(p => p.id === prod.id);
+    const index = productosCarrito.findIndex(p => p.id === prod.id);
     if (index !== -1) {
-        productoCarrito.splice(index, 1);
-        localStorage.setItem("carrito", JSON.stringify(productoCarrito));
+        //  productoCarrito.splice(index, 1);
+        localStorage.setItem("carrito", JSON.stringify(productosCarrito));
     }
 }
 
 // Devuelve la cantidad de un producto específico
 function contadorProductos(id: number): number {
-    return productoCarrito.filter(p => p.id === id).length;
+    return productosCarrito.filter(p => p.id === id).length;
 }
 
+// 🔹 Función para mostrar subtotal y total
 // Calcula el total sumando precios
 function calcularTotal(): number {
     let total: number = 0;
-    productoCarrito.forEach(p => {
+    productosCarrito.forEach(p => {
         total += p.precio;
     })
     return total;
 }
 
-// 🔹 Función para mostrar subtotal y total
+
 function mostrarTotal() {
     const subTotal = document.querySelector<HTMLElement>("#subtotal");
     const total = document.querySelector<HTMLElement>("#total");
@@ -179,6 +201,3 @@ function mostrarTotal() {
         total.appendChild(precioTotal);
     }
 }
-
-mostrarTotal();
-

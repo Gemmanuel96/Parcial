@@ -69,9 +69,9 @@ header nav a:focus{
 header button{
     /* font-weight: 600; */
     font-size: large;
-    padding: 0.8em 1.5em;
+    padding: 0.6em;
     border-radius: 1em;
-    width: 200px;
+    width: 180px;
 }
 
 header button:hover{
@@ -108,7 +108,7 @@ main {
 
 #box2{
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     flex-direction: column;
     flex: 0 0 35%;
@@ -134,7 +134,7 @@ main {
 #total-box {
     margin-top: 3em;
     display: flex;
-    height: 75%;
+    height: 70%;
     width: 80%;     
     background-color: var(--color-borde);
     border-radius: 5px;
@@ -166,18 +166,25 @@ main {
 }
 
 #mensaje{
-    /* display: ; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: 100%;
-    /* border: #333 solid 1px; */
 }
 
 #mensaje p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #f0f0f0;
+    text-align: center;
     font-weight: 600;
-    font-size: larger;
+    font-size: 30px;
 }
 
-#subtotal{
+/* #subtotal{
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -226,4 +233,4 @@ main {
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     font-weight: bold;
-}
+} */
