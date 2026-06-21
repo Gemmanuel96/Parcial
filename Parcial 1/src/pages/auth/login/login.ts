@@ -1,7 +1,10 @@
-import type { IUser } from "../../../types/IUser";
 import { saveUser } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
-import { usuarios} from "../../../data/data";
+import type { IUser } from "../../../types/IUser";
+
+//Traemos los Usuario de la base de datos
+const respUsuario = await fetch("/data/usuarios.json");
+const usuarios:IUser[] = await respUsuario.json();
 
 
 
@@ -18,10 +21,6 @@ form?.addEventListener("submit", (event: SubmitEvent) => {
   //Capturamos los datos de los inputs
   const inputImail = formData.get("email") as string;
   const inputContrasenia = formData.get("contrasenia") as string;
-
-  //Traemos los datos de localStorage
-  //const usuariosGuardados = localStorage.getItem("users");
-  //const usuarios: IUser[] = usuariosGuardados ? JSON.parse(usuariosGuardados) : [];
 
   const usuarioEncontrado = usuarios.find((u: IUser) => u.email === inputImail && u.contrasenia === inputContrasenia);
 

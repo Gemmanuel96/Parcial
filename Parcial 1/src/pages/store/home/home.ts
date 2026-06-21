@@ -1,7 +1,18 @@
-import { categorias } from "../../../data/data";
-import { PRODUCTS } from "../../../data/data";
+import type { ICategorias } from "../../../types/Categorias";
 import type { Product } from "../../../types/Product";
 import { logout } from "../../../utils/auth";
+
+//Iniciamos un carrito si no existe
+if (!localStorage.getItem("carrito")) {
+    localStorage.setItem("carrito", JSON.stringify([]))
+}
+
+//Traemos los productos de la base de datos
+const resCategorias = await fetch("/data/categorias.json");
+const categorias: ICategorias[] = await resCategorias.json();
+
+const resProductos = await fetch("/data/productos.json");
+const productos: Product[] = await resProductos.json();
 
 
 //Verificamos que exista en localstorage el "carrito"
@@ -13,6 +24,7 @@ function mostrarCategorias() {
     const categoriaList = document.querySelector<HTMLUListElement>("#lista-categorias");
 
     categorias.forEach(categoria => {
+
         const li = document.createElement("li");
         li.textContent = categoria.nombre;
         categoriaList?.appendChild(li);
@@ -30,8 +42,12 @@ function mostrarCategorias() {
             // 🔹 Filtrar productos
             const contenedor = document.querySelector<HTMLDivElement>("#productos-items");
             const categoriaFiltro = categoria.nombre;
-            const filtrados = PRODUCTS.filter(p =>
-                p.categorias.some(c => c.nombre === categoriaFiltro)
+
+            const filtrados = productos.filter((p: Product) =>
+                p.categorias.some((catId: any) => {
+                    const cat = categorias.find(c => c.id === catId);
+                    return cat?.nombre === categoriaFiltro;
+                })
             );
 
             if (contenedor) {
@@ -52,7 +68,7 @@ function mostrarCategorias() {
         allProductos.classList.add("activo");
 
         // Mostrar todos los productos
-        mostrarProductos(PRODUCTS);
+        mostrarProductos(productos);
     });
 }
 
@@ -83,7 +99,12 @@ function mostrarProductos(productos: Product[]) {
         //Elementos de detalle
         const categoria = document.createElement("p");
         categoria.classList.add("p-categoria");
-        categoria.textContent = productos.categorias.map(cat => cat.nombre).join(",");
+        categoria.textContent = productos.categorias
+            .map((catId: any) => {
+                const cat = categorias.find(c => c.id === catId);
+                return cat?.nombre;
+            })
+            .join(", ");
 
         const titulo = document.createElement("h3");
         titulo.classList.add("p-titulo")
@@ -119,83 +140,18 @@ function mostrarProductos(productos: Product[]) {
         contenedorProductos?.appendChild(articulo);
 
         //Evento a cada imagen para mostrar el producto
-        imagen.addEventListener("click", () =>{
+        imagen.addEventListener("click", () => {
 
-            const main = document.querySelector<HTMLElement>("#main");
-
-            if(main){
-
-                main.innerHTML = "";
-
-                const imgP = document.createElement("img");
-                imgP.src = productos.imagen;
-                //Box Principal
-                const box = document.createElement("div");
-                box.classList.add("caja-p")
-    
-                //Box Contenedoras
-                const c1 = document.createElement("div");
-                c1.classList.add("img-c")
-    
-                const c2 = document.createElement("div");
-                c2.classList.add("det-c");
-
-                //Box de botones
-                const btnBox = document.createElement("div");
-
-                const btnAdd = document.createElement("button");
-                btnAdd.classList.add("btnAgregar")
-                btnAdd.textContent = "+";
-
-                const cantidadSpan = document.createElement("span");
-                cantidadSpan.textContent = "0";
-                cantidadSpan.classList.add("cant-span")
-
-                const btnSubstract = document.createElement("button");
-                btnAdd.classList.add("btnProducto");
-                btnSubstract.textContent = "-";
-
-                btnBox.appendChild(btnAdd);
-                btnAdd.appendChild(cantidadSpan);
-                btnBox.appendChild(btnSubstract);
-
-                //Botones para agregar al carrito
-                const btnProducto = document.createElement("div");
-                btnProducto.classList.add("btnProducto")
-
-                const agregarCarrito = document.createElement("button");
-                agregarCarrito.classList.add("agregar-carrito");
-
-                const volver = document.createElement("button");
-                volver.classList.add("volver");
-
-                btnProducto.appendChild(agregarCarrito);
-                btnAdd.appendChild(volver);
-                
-    
-                c1.appendChild(imgP);
-
-                c2.appendChild(titulo);
-                c2.appendChild(precio);
-                c2.appendChild(disponible);
-                c2.appendChild(descripcion);
-                c2.appendChild(btnBox);
-
-                box.appendChild(c1);
-                box.appendChild(c2);
-
-                main.appendChild(box)
-
-
-            }
-
-
+                mostrarDetalle(productos);
+            
         })
     })
 }
 
 // Mostramos todos los productos al inicio
-mostrarProductos(PRODUCTS);
+mostrarProductos(productos);
+
+
 
 // 🔹 Evento de búsqueda en vivo
 const buscador = document.querySelector<HTMLInputElement>("#buscador");
@@ -203,7 +159,7 @@ buscador?.addEventListener("input", () => {
     const texto = buscador.value.toLowerCase();
 
     // Filtramos productos por coincidencia en nombre
-    const filtrados = PRODUCTS.filter(p => p.nombre.toLowerCase().includes(texto));
+    const filtrados: Product[] = productos.filter((p: Product) => p.nombre.toLowerCase().includes(texto));
 
     if (filtrados.length === 0 && contenedorProductos) {
         contenedorProductos.innerHTML = "";
@@ -224,7 +180,8 @@ const valorCarrito = document.querySelector<HTMLSpanElement>("#valor-carrito");
 
 function mostrarValorCarrito() {
     const carrito = localStorage.getItem("carrito");
-    const carritoProdu: Product[] = carrito ? JSON.parse(carrito) : "[]";
+    const carritoProdu: Product[] = carrito ? JSON.parse(carrito) : [];
+
     if (valorCarrito) {
         valorCarrito.textContent = carritoProdu.length.toString();
     }
@@ -243,4 +200,96 @@ if (btnSesion) {
     btnSesion.addEventListener("click", () => {
         logout();
     })
+}
+
+function mostrarDetalle(producto: Product) {
+
+    const main = document.querySelector('#main');
+
+    if(main){
+        main.innerHTML='';
+    }
+
+    const titulo = document.createElement('h1');
+    titulo.textContent = producto.nombre;
+
+    const precio = document.createElement('p');
+    precio.textContent = `Precio: $ ${producto.precio}`;
+
+    const disponible = document.createElement('p');
+    disponible.classList.add('p-disponible')
+
+    if (producto.disponible) {
+        disponible.textContent = 'Disponible'
+    } else {
+        disponible.textContent = 'No disponible'
+        disponible.style.backgroundColor = 'red';
+    }
+
+    const descripcion = document.createElement('p');
+    descripcion.textContent = producto.descripcion;
+
+
+
+    const imgP = document.createElement("img");
+    imgP.src = producto.imagen;
+    //Box Principal
+    const box = document.createElement("div");
+    box.classList.add("caja-p")
+
+    //Box Contenedoras
+    const c1 = document.createElement("div");
+    c1.classList.add("img-c")
+
+    const c2 = document.createElement("div");
+    c2.classList.add("det-c");
+
+    //Box de botones
+    const btnBox = document.createElement("div");
+
+    const btnAdd = document.createElement("button");
+    btnAdd.classList.add("btnAgregar")
+    btnAdd.textContent = "+";
+
+    const cantidadSpan = document.createElement("span");
+    cantidadSpan.textContent = "0";
+    cantidadSpan.classList.add("cant-span")
+
+    const btnSubstract = document.createElement("button");
+    btnAdd.classList.add("btnProducto");
+    btnSubstract.textContent = "-";
+
+    btnBox.appendChild(btnAdd);
+    btnAdd.appendChild(cantidadSpan);
+    btnBox.appendChild(btnSubstract);
+
+    //Botones para agregar al carrito
+    const btnProducto = document.createElement("div");
+    btnProducto.classList.add("btnProducto")
+
+    const agregarCarrito = document.createElement("button");
+    agregarCarrito.classList.add("agregar-carrito");
+
+    const volver = document.createElement("button");
+    volver.classList.add("volver");
+
+    btnProducto.appendChild(agregarCarrito);
+    btnAdd.appendChild(volver);
+
+
+    c1.appendChild(imgP);
+
+    c2.appendChild(titulo);
+    c2.appendChild(precio);
+    c2.appendChild(disponible);
+    c2.appendChild(descripcion);
+    c2.appendChild(btnBox);
+
+    box.appendChild(c1);
+    box.appendChild(c2);
+
+    if (main) {
+        main.appendChild(box)
+    }
+
 }
