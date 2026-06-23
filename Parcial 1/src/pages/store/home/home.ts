@@ -60,11 +60,6 @@ function mostrarProductos(productos: Product[]) {
         const articulo = crearArticuloProducto(productos, categorias);
 
         contenedorProductos?.appendChild(articulo);
-
-        //Evento a cada imagen para mostrar el producto
-        imagen.addEventListener("click", () => {
-            renderDeDetalleProducto(productos);
-        })
     })
 }
 
