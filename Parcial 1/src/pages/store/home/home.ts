@@ -18,47 +18,42 @@ const productos: Product[] = await resProductos.json();
 
 //Eventos de nuestra pagina web
 function mostrarCategorias() {
-    //const categoriaList = document.querySelector<HTMLUListElement>("#lista-categorias");
 
     categorias.forEach(categoria => {
-
         crearCategoria(categoria);
+    });
+
+
+    // 🔹 Caso especial: Todos los productos
+    const allProductos = document.querySelector<HTMLLIElement>("#all-products");
+    allProductos?.addEventListener("click", () => {
+        // Quitar activo de todas
+        const todas = document.querySelectorAll("#lista-categorias li");
+        todas.forEach(c => c.classList.remove("activo"));
+
+        // Marcar solo "Todos"
+        allProductos.classList.add("activo");
+
+        // Mostrar todos los productos
+        mostrarProductos(productos);
     });
 };
 
-// 🔹 Caso especial: Todos los productos
-const allProductos = document.querySelector<HTMLLIElement>("#all-products");
-allProductos?.addEventListener("click", () => {
-    // Quitar activo de todas
-    const todas = document.querySelectorAll("#lista-categorias li");
-    todas.forEach(c => c.classList.remove("activo"));
-
-    // Marcar solo "Todos"
-    allProductos.classList.add("activo");
-
-    // Mostrar todos los productos
-    mostrarProductos(productos);
-});
 
 mostrarCategorias();
 
 
 function mostrarProductos(productos: Product[]) {
 
-    // 🔹 Contenedor principal de productos
     const contenedorProductos = document.querySelector<HTMLDivElement>("#productos-items");
 
-    // Limpiamos antes de renderizar
     if (contenedorProductos) {
         contenedorProductos.innerHTML = "";
     }
 
     // Recorremos y mostramos cada producto
     productos.forEach(productos => {
-
-
         const articulo = crearArticuloProducto(productos, categorias);
-
         contenedorProductos?.appendChild(articulo);
     })
 }
@@ -118,113 +113,54 @@ if (btnSesion) {
     })
 }
 
-//Reders para productos
-function renderDeDetalleProducto(producto: Product) {
+function renderPrincipal(producto: Product) {
 
-    const main = document.querySelector('#main');
+    const detalleBox = document.querySelector("#detalle-producto") as HTMLElement;
+    const productoBox = document.querySelector("#productos-box") as HTMLElement;
+    const categoriaBox = document.querySelector(".box-categoria") as HTMLElement;
 
-    if (main) {
-        main.innerHTML = '';
-    }
+    productoBox.style.display = 'none';
+    categoriaBox.style.display = 'none';
+    detalleBox.style.display = "flex";
 
-    const titulo = document.createElement('h1');
-    titulo.textContent = producto.nombre;
+    const titulo = crearElemento("h1", "", producto.nombre);
+    const precioText = `Precio $${producto.precio}`
+    const precio = crearElemento("p", "", precioText);
 
-    const precio = document.createElement('p');
-    precio.textContent = `Precio: $ ${producto.precio}`;
-
-    const disponible = document.createElement('p');
-    disponible.classList.add('p-disponible')
-
+    let disponible: HTMLElement;
     if (producto.disponible) {
-        disponible.textContent = 'Disponible'
+        disponible = crearElemento('p', "", "Disponible");
+        disponible.style.backgroundColor = "green";
     } else {
-        disponible.textContent = 'No disponible'
-        disponible.style.backgroundColor = 'red';
+        disponible = crearElemento('p', "", "No Disponible");
+        disponible.style.backgroundColor = "red";
     }
 
-    const descripcion = document.createElement('p');
-    descripcion.textContent = producto.descripcion;
+    const descripcion = crearElemento('p', "", producto.descripcion);
+
+    const imagen: HTMLImageElement = crearElemento('img') as HTMLImageElement;
+    imagen.src = producto.imagen;
 
 
+    //Controles - Botones
+    const boxControles = crearControles();
+    boxControles.classList.add("boxControles");
 
-    const imgP = document.createElement("img");
-    imgP.src = producto.imagen;
-    //Box Principal
-    const box = document.createElement("div");
-    box.classList.add("caja-p")
-
-    //Box Contenedoras
-    const c1 = document.createElement("div");
-    c1.classList.add("img-c")
-
-    const c2 = document.createElement("div");
-    c2.classList.add("det-c");
-
-    //Box de controles
-    const btnBox = document.createElement("div");
-    btnBox.classList.add('boxControles')
-
-    const btnAdd = document.createElement("button");
-    btnAdd.classList.add("btnControl")
-    btnAdd.textContent = "+";
-
-    const cantidadSpan = document.createElement("span");
-    cantidadSpan.textContent = "0";
-    cantidadSpan.classList.add("cant-span")
-
-    const btnSubstract = document.createElement("button");
-    btnAdd.classList.add("btnControl");
-    btnSubstract.textContent = "-";
-
-    btnBox.appendChild(btnAdd);
-    btnBox.appendChild(cantidadSpan);
-    btnBox.appendChild(btnSubstract);
-
-    //Botones para agregar al carrito
-    const btnProducto = document.createElement("div");
-    btnProducto.classList.add("boxAgregar")
-
-    const agregarCarrito = document.createElement("button");
-    agregarCarrito.textContent = 'Agregar carrito';
-    agregarCarrito.classList.add("btnAgregar");
-
-    const volver = document.createElement("button");
-    volver.textContent = 'Volver';
-    volver.classList.add("btnVolver");
-
-    btnProducto.appendChild(agregarCarrito);
-    btnProducto.appendChild(volver);
+    const boxControlesAgregar = crearControlesAgregar();
+    boxControlesAgregar.classList.add("boxAgregar")
 
 
-    volver.addEventListener("click", () => {
+    //Cajas de elementos
+    const boxImagen = crearElemento('div', 'img-c');
+    boxImagen.appendChild(imagen);
 
-        const main = document.querySelector('#main');
+    const boxDetalle = crearElemento("div", "det-c");
+    boxDetalle.append(titulo,disponible, descripcion, precio, boxControles, boxControlesAgregar);
 
-        if (main) {
-            main.innerHTML = "";
-        }
-        mostrarProductos(productos);
-        mostrarCategorias();
-    })
+    detalleBox.innerHTML = "";
+    //Agregamos a la caja principal
+    detalleBox.append(boxImagen,boxDetalle);
 
-    //Caja en donde va la imagen del producto
-    c1.appendChild(imgP);
-
-    //Caja en donde van los detalles del producto
-    c2.appendChild(titulo);
-    c2.appendChild(precio);
-    c2.appendChild(disponible);
-    c2.appendChild(descripcion);
-    c2.appendChild(btnBox);
-    c2.appendChild(btnProducto)
-
-    box.appendChild(c1);
-    box.appendChild(c2);
-
-    if (main) {
-        main.appendChild(box)
-    }
 
 
 }
@@ -287,12 +223,25 @@ function crearControles(): HTMLElement {
 }
 
 function crearControlesAgregar(): HTMLElement {
-    const box = crearElemento('div', 'boxAgregar');
+    const box = crearElemento('div', 'boxControlesAgregar');
     const btnAgregar = crearElemento('button', 'btnAgregar', 'Agregar a carrito');
     const btnVolver = crearElemento('button', 'btnVolver', 'Volver');
     box.append(btnAgregar, btnVolver);
+
+    btnVolver.addEventListener("click", () => {
+
+        const detalleBox = document.querySelector("#detalle-producto") as HTMLElement;
+        const productoBox = document.querySelector("#productos-box") as HTMLElement;
+        const categoriaBox = document.querySelector(".box-categoria") as HTMLElement;
+
+        detalleBox.style.display = "none";
+        productoBox.style.display = "flex";
+        categoriaBox.style.display = "flex";
+    })
+
     return box;
 }
+
 
 function crearArticuloProducto(producto: Product, categorias: ICategorias[]): HTMLElement {
 
@@ -308,7 +257,7 @@ function crearArticuloProducto(producto: Product, categorias: ICategorias[]): HT
         })
         .join(", ")
 
-    const categoria = crearElemento('p', 'p-caracteristicas', textoCategoria);
+    const categoria = crearElemento('p', 'p-categoria', textoCategoria);
     const titulo = crearElemento('h3', 'p-titulo', producto.nombre);
     const descripcion = crearElemento('p', 'p-descripcion', producto.descripcion);
     const textoPrecio = `Precio $${producto.precio}`;
@@ -327,8 +276,8 @@ function crearArticuloProducto(producto: Product, categorias: ICategorias[]): HT
     boxDetalles.append(categoria, titulo, descripcion, precio, disponible);
     articulo.append(imagen, boxDetalles);
 
-    imagen.addEventListener('click', ()=>{
-        renderDeDetalleProducto(producto);
+    imagen.addEventListener('click', () => {
+        renderPrincipal(producto);
     })
 
     return articulo;
