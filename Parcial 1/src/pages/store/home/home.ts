@@ -15,70 +15,39 @@ const resProductos = await fetch("/data/productos.json");
 const productos: Product[] = await resProductos.json();
 
 
-//Verificamos que exista en localstorage el "carrito"
 
-// 🔹 Seleccionamos la lista de categorías en la barra lateral
-
-
+//Eventos de nuestra pagina web
 function mostrarCategorias() {
-    const categoriaList = document.querySelector<HTMLUListElement>("#lista-categorias");
+    //const categoriaList = document.querySelector<HTMLUListElement>("#lista-categorias");
 
     categorias.forEach(categoria => {
 
-        const li = document.createElement("li");
-        li.textContent = categoria.nombre;
-        categoriaList?.appendChild(li);
-
-        li.addEventListener("click", (event: MouseEvent) => {
-            event.preventDefault();
-
-            // 🔹 Quitar activo de todas
-            const todas = document.querySelectorAll("#lista-categorias li");
-            todas.forEach(c => c.classList.remove("activo"));
-
-            // 🔹 Marcar solo la clickeada
-            li.classList.add("activo");
-
-            // 🔹 Filtrar productos
-            const contenedor = document.querySelector<HTMLDivElement>("#productos-items");
-            const categoriaFiltro = categoria.nombre;
-
-            const filtrados = productos.filter((p: Product) =>
-                p.categorias.some((catId: any) => {
-                    const cat = categorias.find(c => c.id === catId);
-                    return cat?.nombre === categoriaFiltro;
-                })
-            );
-
-            if (contenedor) {
-                contenedor.innerHTML = "";
-                mostrarProductos(filtrados);
-            }
-        });
+        crearCategoria(categoria);
     });
+};
 
-    // 🔹 Caso especial: Todos los productos
-    const allProductos = document.querySelector<HTMLLIElement>("#all-products");
-    allProductos?.addEventListener("click", () => {
-        // Quitar activo de todas
-        const todas = document.querySelectorAll("#lista-categorias li");
-        todas.forEach(c => c.classList.remove("activo"));
+// 🔹 Caso especial: Todos los productos
+const allProductos = document.querySelector<HTMLLIElement>("#all-products");
+allProductos?.addEventListener("click", () => {
+    // Quitar activo de todas
+    const todas = document.querySelectorAll("#lista-categorias li");
+    todas.forEach(c => c.classList.remove("activo"));
 
-        // Marcar solo "Todos"
-        allProductos.classList.add("activo");
+    // Marcar solo "Todos"
+    allProductos.classList.add("activo");
 
-        // Mostrar todos los productos
-        mostrarProductos(productos);
-    });
-}
+    // Mostrar todos los productos
+    mostrarProductos(productos);
+});
 
 mostrarCategorias();
 
 
-// 🔹 Contenedor principal de productos
-const contenedorProductos = document.querySelector<HTMLDivElement>("#productos-items");
-
 function mostrarProductos(productos: Product[]) {
+
+    // 🔹 Contenedor principal de productos
+    const contenedorProductos = document.querySelector<HTMLDivElement>("#productos-items");
+
     // Limpiamos antes de renderizar
     if (contenedorProductos) {
         contenedorProductos.innerHTML = "";
@@ -86,64 +55,15 @@ function mostrarProductos(productos: Product[]) {
 
     // Recorremos y mostramos cada producto
     productos.forEach(productos => {
-        const articulo = document.createElement("article");
-        articulo.classList.add("p-articulo");
 
-        const imagen = document.createElement("img");
-        imagen.classList.add("p-imagen");
-        imagen.src = productos.imagen;
 
-        const pDetalles = document.createElement("div")
-        pDetalles.classList.add("p-caracteristica");
-
-        //Elementos de detalle
-        const categoria = document.createElement("p");
-        categoria.classList.add("p-categoria");
-        categoria.textContent = productos.categorias
-            .map((catId: any) => {
-                const cat = categorias.find(c => c.id === catId);
-                return cat?.nombre;
-            })
-            .join(", ");
-
-        const titulo = document.createElement("h3");
-        titulo.classList.add("p-titulo")
-        titulo.textContent = productos.nombre;
-
-        const descripcion = document.createElement("p");
-        descripcion.classList.add("p-descripcion")
-        descripcion.textContent = productos.descripcion;
-
-        const precio = document.createElement("p");
-        precio.textContent = `Precio: $ ${productos.precio}`;
-        precio.classList.add("p-precio");
-
-        const disponible = document.createElement("p");
-        disponible.classList.add("p-disponible");
-
-        if (productos.disponible == true) {
-            disponible.textContent = "Disponible";
-        } else {
-            disponible.textContent = "No disponible";
-            disponible.style.backgroundColor = "red";
-        }
-
-        pDetalles.appendChild(categoria);
-        pDetalles.appendChild(titulo);
-        pDetalles.appendChild(descripcion);
-        pDetalles.appendChild(precio);
-        pDetalles.appendChild(disponible);
-
-        articulo.appendChild(imagen);
-        articulo.appendChild(pDetalles);
+        const articulo = crearArticuloProducto(productos, categorias);
 
         contenedorProductos?.appendChild(articulo);
 
         //Evento a cada imagen para mostrar el producto
         imagen.addEventListener("click", () => {
-
-                mostrarDetalle(productos);
-            
+            renderDeDetalleProducto(productos);
         })
     })
 }
@@ -155,6 +75,8 @@ mostrarProductos(productos);
 
 // 🔹 Evento de búsqueda en vivo
 const buscador = document.querySelector<HTMLInputElement>("#buscador");
+const contenedorProductos = document.querySelector('#productos-items');
+
 buscador?.addEventListener("input", () => {
     const texto = buscador.value.toLowerCase();
 
@@ -181,7 +103,6 @@ const valorCarrito = document.querySelector<HTMLSpanElement>("#valor-carrito");
 function mostrarValorCarrito() {
     const carrito = localStorage.getItem("carrito");
     const carritoProdu: Product[] = carrito ? JSON.parse(carrito) : [];
-
     if (valorCarrito) {
         valorCarrito.textContent = carritoProdu.length.toString();
     }
@@ -202,12 +123,13 @@ if (btnSesion) {
     })
 }
 
-function mostrarDetalle(producto: Product) {
+//Reders para productos
+function renderDeDetalleProducto(producto: Product) {
 
     const main = document.querySelector('#main');
 
-    if(main){
-        main.innerHTML='';
+    if (main) {
+        main.innerHTML = '';
     }
 
     const titulo = document.createElement('h1');
@@ -244,11 +166,12 @@ function mostrarDetalle(producto: Product) {
     const c2 = document.createElement("div");
     c2.classList.add("det-c");
 
-    //Box de botones
+    //Box de controles
     const btnBox = document.createElement("div");
+    btnBox.classList.add('boxControles')
 
     const btnAdd = document.createElement("button");
-    btnAdd.classList.add("btnAgregar")
+    btnAdd.classList.add("btnControl")
     btnAdd.textContent = "+";
 
     const cantidadSpan = document.createElement("span");
@@ -256,34 +179,50 @@ function mostrarDetalle(producto: Product) {
     cantidadSpan.classList.add("cant-span")
 
     const btnSubstract = document.createElement("button");
-    btnAdd.classList.add("btnProducto");
+    btnAdd.classList.add("btnControl");
     btnSubstract.textContent = "-";
 
     btnBox.appendChild(btnAdd);
-    btnAdd.appendChild(cantidadSpan);
+    btnBox.appendChild(cantidadSpan);
     btnBox.appendChild(btnSubstract);
 
     //Botones para agregar al carrito
     const btnProducto = document.createElement("div");
-    btnProducto.classList.add("btnProducto")
+    btnProducto.classList.add("boxAgregar")
 
     const agregarCarrito = document.createElement("button");
-    agregarCarrito.classList.add("agregar-carrito");
+    agregarCarrito.textContent = 'Agregar carrito';
+    agregarCarrito.classList.add("btnAgregar");
 
     const volver = document.createElement("button");
-    volver.classList.add("volver");
+    volver.textContent = 'Volver';
+    volver.classList.add("btnVolver");
 
     btnProducto.appendChild(agregarCarrito);
-    btnAdd.appendChild(volver);
+    btnProducto.appendChild(volver);
 
 
+    volver.addEventListener("click", () => {
+
+        const main = document.querySelector('#main');
+
+        if (main) {
+            main.innerHTML = "";
+        }
+        mostrarProductos(productos);
+        mostrarCategorias();
+    })
+
+    //Caja en donde va la imagen del producto
     c1.appendChild(imgP);
 
+    //Caja en donde van los detalles del producto
     c2.appendChild(titulo);
     c2.appendChild(precio);
     c2.appendChild(disponible);
     c2.appendChild(descripcion);
     c2.appendChild(btnBox);
+    c2.appendChild(btnProducto)
 
     box.appendChild(c1);
     box.appendChild(c2);
@@ -292,4 +231,110 @@ function mostrarDetalle(producto: Product) {
         main.appendChild(box)
     }
 
+
+}
+
+
+//FUnciones
+function crearCategoria(categoria: ICategorias) {
+
+    const listaCategorias = document.querySelector('#lista-categorias');
+
+    const li = crearElemento('li', '', categoria.nombre);
+    listaCategorias?.append(li);
+
+    li?.addEventListener("click", (Event: MouseEvent) => {
+
+        Event.preventDefault();
+
+        // 🔹 Quitar activo de todas
+        const todas = document.querySelectorAll("#lista-categorias li");
+        todas.forEach(c => c.classList.remove("activo"));
+
+        // 🔹 Marcar solo la clickeada
+        li.classList.add("activo");
+
+        // 🔹 Filtrar productos
+        const contenedor = document.querySelector<HTMLDivElement>("#productos-items");
+        const categoriaFiltro = categoria.nombre;
+
+        const filtrados = productos.filter((p: Product) =>
+            p.categorias.some((catId: any) => {
+                const cat = categorias.find(c => c.id === catId);
+                return cat?.nombre === categoriaFiltro;
+            })
+        );
+
+        if (contenedor) {
+            contenedor.innerHTML = "";
+            mostrarProductos(filtrados);
+        }
+    })
+
+
+}
+
+function crearElemento(tag: string, clase?: string, texto?: string): HTMLElement {
+    const elemento = document.createElement(tag);
+    if (clase) elemento.classList.add(clase);
+    if (texto) elemento.textContent = texto;
+    return elemento;
+}
+
+//Funcion de agregar o eliminar elemento
+function crearControles(): HTMLElement {
+    const box = crearElemento('div', 'boxControles');
+    const btnAdd = crearElemento('button', 'btnControl', '+');
+    const valor = crearElemento('span', 'valor', '0');
+    const btnSub = crearElemento('button', 'btnControl', '-');
+    box.append(btnAdd, valor, btnSub);
+    return box;
+}
+
+function crearControlesAgregar(): HTMLElement {
+    const box = crearElemento('div', 'boxAgregar');
+    const btnAgregar = crearElemento('button', 'btnAgregar', 'Agregar a carrito');
+    const btnVolver = crearElemento('button', 'btnVolver', 'Volver');
+    box.append(btnAgregar, btnVolver);
+    return box;
+}
+
+function crearArticuloProducto(producto: Product, categorias: ICategorias[]): HTMLElement {
+
+    const articulo = crearElemento('article', 'p-articulo');
+    const imagen: HTMLImageElement = crearElemento('img', 'p-imagen') as HTMLImageElement;
+    imagen.src = producto.imagen;
+
+    const boxDetalles = crearElemento('div', 'p-caracteristicas');
+    const textoCategoria = producto.categorias
+        .map((catId: any) => {
+            const cat = categorias.find(c => c.id === catId);
+            return cat?.nombre;
+        })
+        .join(", ")
+
+    const categoria = crearElemento('p', 'p-caracteristicas', textoCategoria);
+    const titulo = crearElemento('h3', 'p-titulo', producto.nombre);
+    const descripcion = crearElemento('p', 'p-descripcion', producto.descripcion);
+    const textoPrecio = `Precio $${producto.precio}`;
+    const precio = crearElemento('p', 'p-precio', textoPrecio);
+
+    let disponible: HTMLElement;
+
+    if (producto.disponible) {
+        disponible = crearElemento('p', 'p-disponible', 'Disponible') as HTMLElement;
+        disponible.style.backgroundColor = 'green';
+
+    } else {
+        disponible = crearElemento('p', 'p-disponible', 'No disponible') as HTMLElement;
+        disponible.style.backgroundColor = 'red';
+    }
+    boxDetalles.append(categoria, titulo, descripcion, precio, disponible);
+    articulo.append(imagen, boxDetalles);
+
+    imagen.addEventListener('click', ()=>{
+        renderDeDetalleProducto(producto);
+    })
+
+    return articulo;
 }

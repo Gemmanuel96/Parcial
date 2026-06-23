@@ -147,6 +147,7 @@ main {
 
 .box-busqueda input {
     width: 60%;
+    padding: 1em    ;
     border-radius: 5px;
 }
 
@@ -248,7 +249,7 @@ article p {
     justify-content: space-around;
     height: 60%;
     width: 100%;
-    background-color: #ff4500;
+    background-color: var(--color-fondo);
 }
 
 #detalle-producto img {
@@ -283,37 +284,91 @@ article p {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ff6347;
+    background-color: var(--color-fondo);
     width: 100%;
     height: 100%;
 }
 
 /* //Caja de imagen */
 .img-c {
+    width: 100%;
+    height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 0 0 40%;
-    background-color: aqua;
+    flex: 0 0 50%;
+    background-color: var(--color-fondo);
 }
 
 .img-c img {
     background-color: #ddd;
-    width: 450px;
-    height: 450px;
+    padding: 10px;
+    width: 80%;
+    height: 80%;
 }
 
 /* //Caja de detalles */
 .det-c{
+    border: var(--color-borde) 5px solid;
     display: flex;
     flex-direction: column;
-    flex: 0 0 50%;
-    padding: 10%;
-    background-color: crimson;
-    width: 50%;
-    height: 90%;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 10px;
+    padding: 0 4em;
+    flex: 0 0 40%;
+    background-color: var(--color-fondo);
+    width: 100%;
+    height: 80%;
+    border-radius: 1EM;
 }
 
-.btnProducto{
-    width: 20px;
+.boxProducto{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 20%;
+}
+
+.boxControles{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3em;
+    width: 10em;
+    background-color: var(--color-fondo);
+}
+
+.boxControles button{
+    border-radius: 0.5em;
+    font-size: 1.4em;
+    font-weight: 600;
+    margin: 0 10px;
+    width: 80px;
+}
+
+.boxAgregar{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    background-color:var(--color-fondo);
+    height: 5em;
+    width: 90%;
+}
+
+.boxAgregar button{
+    padding: 13px;
+}
+
+.btnAgregar{
+    width:60%;
+    border-radius: 1em;
+    font-size: large;
+}
+
+.btnVolver{
+    font-size: large;
+    border-radius: 1em;
+    width: 30%;
 }
