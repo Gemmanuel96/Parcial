@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root{
+    --color-primario: #ff6347; 
+    --color-fondo: #f0f0f0; 
+    --color-texto: #333; 
+    --color-blanco: #fff; 
+    --color-borde: #ddd; 
+    --color-focus: #ff4500;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+/*main*/
+
+/* body{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: -o-linear-gradient(to right, #ff4500 50%, #d2860c);
+    background: linear-gradient(left, #ff4500, 50%, #d2860c);
+    background: linear-gradient(left, #ff4500, 50%, #d2860c);
+    background: linear-gradient(left, #ff4500, 50%, #d2860c);
+} */
+
+body{
+    height: 100vh;
+    width: 100vw;
+}
+main{
+    height: 100%;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #ff4500; */
+    background: -webkit-radial-gradient(left, #ff4500 50%, #d2860c);
+    background: -moz-radial-gradient(left,#ff4500 50%, #d2860c);
+    background: -o-radial-gradient(left,#ff4500 50%, #d2860c);
+    background: -ms-radial-gradient(left, #ff4500 50%, #d2860c);
+}   
+
+
+.form-container{
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-blanco);
+    padding: 45px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    width: 30em;
+    height: auto;
+}
+
+
+.form-container h1{
+    width: 100%;
+    color: var(--color-primario);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.form-container h2{
+    color: var(--color-texto);
+    font-size: 1.7rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#formulario-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#inputs{
+    padding: 10PX;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario label{
+    color: var(--color-texto);
+    font-size: 1.15rem;
+    font-weight: bolder;
+}
+
+.formulario input{
+    justify-content: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--color-borde);
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.formulario input:focus{
+    border-color: var(--color-focus);
+    outline: none;
+}
+
+.formulario button{
+    font-weight: 600;
+    display: block;
+    justify-content: flex-start;
+    margin: 0;
+    width: 10em;
+    padding: 12px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.formulario button:hover{
+    background-color: var(--color-primario);
+    transition: all 300ms ease-in-out;
+}
+
+.formulario button:focus{
+    background-color: #ff4500;
+}
+
+.usuarios-prueba{
+    margin-top: 30px;
+}
+
+.usuarios-prueba H3{
+    font-size: medium;
+    color: rgba(51, 51, 51, 0.6);
+}
+
+.usuarios-prueba p{
+    font-size: small;
+}

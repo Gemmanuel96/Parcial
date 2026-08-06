@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="home.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra productos</title>
+</head>
+
+<body>
+
+
+    <!-- Header con links al carrito y al catalogo -->
+    <header>
+        <div class="titulo">
+            <h1>🍕Food Store</h1>
+        </div>
+
+        <div class="enlaces">
+            <a href="#">Inicio</a>
+            <a href="">Mis Pedidos</a>
+            <a href="../../client/home/home.html">Mi Usuario</a>
+            <a href="../cart/cart.html">Carrito🛒(<span id="valor-carrito" class="valor-carrito"></span>)</a>
+        </div>
+        <button id="btn-sesion">Cerrar Sesion ⛔</button>
+
+    </header>
+
+
+
+    <!--Main  -->
+    <main id="main">
+
+        <!-- Seccion de categorias -->
+        <section class="box-categoria">
+            <h2>Categorias</h2>
+            <p>Filtrar por categoria</p>
+
+            <!-- Lista de Categorias -->
+            <ul id="lista-categorias">
+                <li id="all-products">Todos los productos</li>
+
+            </ul>
+
+        </section>
+
+        <!-- Seccion  de productos -->
+        <section id="productos-box">
+
+            <!-- Buscador de productos-->
+            <div class="box-busqueda">
+                <input type="text" id="buscador" name="buscador" placeholder="🔎 Buscar productos... ">
+
+                <!-- Seleccionado por Ordenamiento -->
+                <select name="" id="Ordenado">Ordenado por
+                    <option value="">Nombre</option>
+                    <option value="">Precio</option>
+                </select>
+
+                <!-- Seleccionado por Categoria -->
+                <select name="" id="Categoria">Categoria
+                    <option value="">Hamburguesa</option>
+                    <option value="">Pizza</option>
+                </select>
+            </div>
+
+
+            <!-- Caja de Productos (Items) -->
+            <div id="productos-items">
+
+
+            </div>
+
+            <
+
+
+        </section>
+
+        <div id="detalle-producto">
+
+            </div>
+
+        
+    </main>
+
+    <script type="module" src="home.ts"></script>
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --color-primario: #ff6347;
+    --color-fondo: #f0f0f0;
+    --color-texto: #333;
+    --color-blanco: #fff;
+    --color-borde: #ddd;
+    --color-focus: #ff4500;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--color-fondo);
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 5em;
+    border-bottom: var(--color-borde) 3px solid;
+}
+
+header h1{
+    text-transform: uppercase;
+    color: #ff6347;
+}
+
+header nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* background-color: aqua; */
+    width: 40em;
+    padding: 15px;
+}
+
+header nav a{
+    text-decoration: none;
+    color: var(--color-texto);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+header nav a:hover {
+    color: #ff6347;
+    transition: all 300ms ease-in-out;
+}
+
+header nav a:focus{
+    color: #ff4500;
+}
+
+
+header button{
+    /* font-weight: 600; */
+    font-size: large;
+    padding: 0.6em;
+    border-radius: 1em;
+    width: 180px;
+}
+
+header button:hover{
+    background-color: #ff6347;
+    color: var(--color-blanco);
+    font-weight: 600;
+}
+
+header button:focus{
+    background-color: #ff4500;
+}
+
+/* ----------------------------- */
+
+main {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+#box1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 65%;
+    background: var(--color-blanco);
+}
+
+#box1 h2{
+    margin: 10px;
+}
+
+#box2{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    flex: 0 0 35%;
+    background-color:var(--color-blanco );
+}
+
+
+
+#carrito-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    height: 85%;
+    background-color: var(--color-borde);
+    border-radius: 10px;
+    border: var(--color-borde) 1px solid;
+    box-shadow: 3px 5px #3333337d;
+
+}
+
+
+#total-box {
+    margin-top: 3em;
+    display: flex;
+    height: 70%;
+    width: 80%;     
+    background-color: var(--color-borde);
+    border-radius: 5px;
+    box-shadow: 3px 5px  #3333337d;
+
+}
+
+/* --------------------------------- */
+
+#productos-list{
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    border: #333 solid 1px;
+}
+
+#detalles{
+    font-size: medium;
+}
+
+
+/* ------------------------ */
+
+.controles-item button {
+    padding: 5px;
+    font-weight: 600;
+}
+
+#mensaje{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#mensaje p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #f0f0f0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+/* #subtotal{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+
+#total{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#total-box button{
+    margin-top: 20px;
+}
+
+#btn-finalizar{
+    font-size: x-large;
+    padding: 5px 50px;
+    margin: auto;
+    margin-bottom: 5px;
+    background-color: #ff6347;
+    color: #f0f0f0;
+    border-radius: 15px;
+}
+
+#btn-vaciar{
+    font-size: x-large;
+    padding: 5px 50px;
+    margin: auto;
+    background-color: #ff6347;
+    color: #f0f0f0;
+    border-radius: 15px;
+}
+
+
+.confirmacion {
+    text-align: center;
+    display: none;
+    margin: 10px auto;
+    right: 20px;
+    background: green;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+} */
