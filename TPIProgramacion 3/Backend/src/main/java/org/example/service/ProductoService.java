@@ -13,8 +13,8 @@ import java.util.Scanner;
 
 public class ProductoService {
 
-    private ProductoRepository productoRepository;
-    private CategoriaRepository categoriaRepository;
+    private ProductoRepository productoRepository = new ProductoRepository();
+    private CategoriaRepository categoriaRepository = new CategoriaRepository();
     Scanner input = new Scanner(System.in);
 
 

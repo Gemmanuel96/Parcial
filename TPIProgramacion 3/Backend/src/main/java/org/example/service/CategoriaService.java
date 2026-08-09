@@ -2,8 +2,6 @@ package org.example.service;
 
 import org.example.model.Categoria;
 import org.example.repository.CategoriaRepository;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
-import org.hibernate.usertype.internal.OffsetDateTimeCompositeUserType;
 
 import java.util.List;
 import java.util.Optional;
@@ -92,18 +90,15 @@ public class CategoriaService {
 
     public void listarActivos() {
         List<Categoria> lista = categoriaRepository.listarActivos();
+        System.out.println("\n=== Lista de categorias ===");
 
         if (lista.isEmpty()) {
-            System.out.println("\n=========== Lista de Categorias vacias ============");
-            System.out.println("\n==== ENTER para continuar ====");
-            input.nextLine();
-        } else {
-            System.out.println("  \n    =========== Categorias =========");
-            lista.forEach(p -> System.out.println(p.getId() + " " + p.getNombre()));
-            System.out.println("\n==== ENTER para continuar ====");
-            input.nextLine();
+            System.out.println("No existen categorias registradas, presione ENTER para volver ...");
         }
     }
 
 
+    public void Pause(){
+        input.nextLine();
+    }
 }

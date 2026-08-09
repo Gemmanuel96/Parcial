@@ -1,6 +1,8 @@
 package org.example.repository;
 
+import jakarta.persistence.EntityManager;
 import org.example.model.Base;
+import org.example.utils.JPAUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +19,10 @@ public abstract class BaseRepositoty<T extends Base> {
 
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
 
-    public abstract boolean eliminarLogico(long id);
+        try {
+            em.getTransaction().begin();
 
-    public abstract Optional<T> buscarPorId(long id);
+            T resultado;
 
             if (entity.getId() == null) {
                 em.persist(entity);
