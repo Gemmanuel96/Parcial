@@ -22,7 +22,7 @@ public class CategoriaService {
 
         Categoria categoria = new Categoria(nombre, descripcion);
 
-        categoriaRepository.guardar(categoria);
+        categoriaRepository.(categoria);
         System.out.println("\n==== ENTER para continuar ====");
         input.nextLine();
     }
@@ -90,15 +90,8 @@ public class CategoriaService {
 
     public void listarActivos() {
         List<Categoria> lista = categoriaRepository.listarActivos();
-        System.out.println("\n=== Lista de categorias ===");
 
         if (lista.isEmpty()) {
-            System.out.println("No existen categorias registradas, presione ENTER para volver ...");
-        }
-    }
-
-
-    public void Pause(){
         input.nextLine();
     }
 }
