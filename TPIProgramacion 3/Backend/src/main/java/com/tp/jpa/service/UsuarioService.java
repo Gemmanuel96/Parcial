@@ -85,7 +85,75 @@ public class UsuarioService {
             System.out.println("ID: " + u.getId() + " | Nombre: " + u.getNombre() + " | Apellido: " + u.getApellido() +  " | Email: " + u.getMail());
         });
 
+        Long id = InputUtil.leerLong("Ingrese ID del usuario: ");
+        Optional<Usuario> optUser = usuarioRepo.buscarPorId(id);
 
+        if (optUser.isEmpty()) {
+            System.out.println("No existe usuario con ese ID.");
+            Pausa();
+            return;
+        }
+
+        Usuario usuario = optUser.get();
+
+        if (usuario.isEliminado()) {
+            System.out.println("El usuario esta dado de baja.");
+            Pausa();
+            return;
+        }
+
+        System.out.println("\n=== DATOS ACTUALES ===");
+        System.out.println("Nombre: " + usuario.getNombre());
+        System.out.println("Apellido: " + usuario.getApellido());
+        System.out.println("Celular: " + usuario.getCelular());
+        System.out.println("Email: " + usuario.getMail());
+
+        String nombre = InputUtil.leerStringOption(
+                "Nuevo nombre [" + usuario.getNombre() + "]: ",
+                usuario.getNombre()
+        );
+
+        String apellido = InputUtil.leerStringOption(
+                "Nuevo apellido [" + usuario.getApellido() + "]: ",
+                usuario.getApellido());
+
+        String celular = InputUtil.leerStringOption(
+                "Nuevo celular [" + usuario.getCelular() + "]: ",
+                usuario.getCelular()
+        );
+
+        String contrasenia = InputUtil.leerStringOption(
+                "Nueva contraseña [Enter para conservar]: ",
+                usuario.getContraseña()
+        );
+
+        String mail = InputUtil.leerStringOption(
+                "Nuevo mail [" + usuario.getMail() + "]: ",
+                usuario.getMail()
+        );
+
+        // Si presiona Enter, conserva el valor anterior
+
+        Optional<Usuario> userMail = usuarioRepo.buscarPorMail(mail);
+
+        if (userMail.isPresent() && !userMail.get().getId().equals(usuario.getId())) {
+            System.out.println("El mail ya esta siendo utilizado por otro usuario.");
+            Pausa();
+            return;
+        }
+
+
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setCelular(celular);
+        usuario.setContraseña(contrasenia);
+        usuario.setMail(mail);
+
+        usuarioRepo.guardar(usuario);
+
+        System.out.println("Usuario modificado correctamente.");
+
+        Pausa();
 
     }
 
