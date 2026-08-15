@@ -18,7 +18,7 @@ public class CategoriaService {
     public void crearCategoria() {
         Categoria categoria = new Categoria();
 
-        System.out.println("=== CREAR CATEGORIA ===");
+        System.out.println("\n=== CREAR CATEGORIA ===");
         categoria.setNombre(InputUtil.leerString("Nombre: "));
         categoria.setDescripcion(InputUtil.leerString("Descripcion: "));
 
@@ -28,7 +28,7 @@ public class CategoriaService {
 
     public void listarCategorias() {
         List<Categoria> listaCategorias = categoriaRepository.listarActivos();
-        System.out.println("=== LISTA DE CATEGORIAS ===");
+        System.out.println("\n=== LISTA DE CATEGORIAS ===");
 
         if (listaCategorias.isEmpty()) {
             System.out.println("\nLista de categorias vacia.");
@@ -37,11 +37,12 @@ public class CategoriaService {
         }
         System.out.println("\nLista de categorias activas:");
         listaCategorias.forEach(p -> System.out.println("ID: " + p.getId() + " | Nombre: " + p.getNombre() + " | Descripcion: " + p.getDescripcion()));
+        Pausa();
     }
 
     public void eliminarCategoria() {
         List<Categoria> listaCategorias = categoriaRepository.listarActivos();
-        System.out.println("=== ELIMINAR CATEGORIA ===");
+        System.out.println("\n=== ELIMINAR CATEGORIA ===");
 
         if (listaCategorias.isEmpty()) {
             System.out.println("\nLista de categorias vacia.");
@@ -68,7 +69,7 @@ public class CategoriaService {
     public void editarCategoria() {
         List<Categoria> listaCategorias = categoriaRepository.listarActivos();
 
-        System.out.println("=== EDITAR CATEGORIA ===");
+        System.out.println("\n=== EDITAR CATEGORIA ===");
 
         if (listaCategorias.isEmpty()) {
             System.out.println("\nLista de categorias vacia.");
