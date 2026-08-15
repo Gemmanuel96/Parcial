@@ -6,14 +6,16 @@ import com.tp.jpa.repository.CategoriaRepository;
 import com.tp.jpa.repository.ProductoRepository;
 import com.tp.jpa.util.InputUtil;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+
 public class ProductoService {
-    private ProductoRepository productoRepo = new ProductoRepository();
-    private CategoriaRepository categoriaRepo = new CategoriaRepository();
+
+    private final Scanner input = new Scanner(System.in);
+    private final ProductoRepository productoRepo = new ProductoRepository();
+    private final CategoriaRepository categoriaRepo = new CategoriaRepository();
 
     public void crearProducto(){
 
@@ -70,9 +72,10 @@ public class ProductoService {
         Pausa();
     }
 
-    public void actualizarProducto(){
+    public void editarProducto() {
         List<Producto> lista = productoRepo.listarActivos();
-        System.out.println("=== Actualizar producto ===");
+
+        System.out.println("=== Editar producto ===");
 
         if (lista.isEmpty()) {
             System.out.println("No existen productos registrados");
@@ -81,9 +84,12 @@ public class ProductoService {
         }
 
         System.out.println("\nLista de productos: ");
+
         lista.forEach(p -> System.out.println("ID: " + p.getId() + " | Nombre: " + p.getNombre() + " | Descripcion: " + p.getDescripcion() + " | Precio: " + p.getPrecio()));
+
         Long id = InputUtil.leerLong("Ingrese ID del producto: ");
         Optional<Producto> p = productoRepo.buscarPorId(id);
+
 
         if (p.isEmpty()){
             System.out.println("Producto no se pudo encontrar.");
@@ -92,14 +98,21 @@ public class ProductoService {
         }
 
         Producto producto = p.get();
+
+        if (producto.isEliminado()) {
+            System.out.println("\nEl producto ya esta dado de baja.");
+        }
+
         producto.setNombre(InputUtil.leerStringOption("Nombre: ", producto.getNombre()));
         producto.setDescripcion(InputUtil.leerStringOption("Descripcion: ", producto.getDescripcion()));
         producto.setPrecio(InputUtil.leerDoubleOption("Precio: ",producto.getPrecio()));
         producto.setStock(InputUtil.leerEnteroOption("Stock: ",producto.getStock()));
+
         Producto productoGuardado = productoRepo.guardar(producto);
 
         System.out.println("Producto guardado exitosamente: " + productoGuardado);
 
+        Pausa();
     }
 
     public void listaActivos() {
@@ -114,10 +127,12 @@ public class ProductoService {
 
         lista.forEach(p -> System.out.println("ID: " + p.getId() + " | Nombre: " + p.getNombre() + " | Descripcion: " + p.getDescripcion() + " | Precio: " + p.getPrecio()));
 
+        Pausa();
     }
 
-    public void Pausa(){
-        Scanner input = new Scanner(System.in);
+    public void Pausa() {
         input.nextLine();
+
     }
+
 }
