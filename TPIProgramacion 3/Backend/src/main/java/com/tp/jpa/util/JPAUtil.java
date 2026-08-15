@@ -1,12 +1,18 @@
-package org.example.utils;
+package com.tp.jpa.util;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+/**
+ * Mantiene una única instancia de EntityManagerFactory para toda la
+ * aplicación. Se obtiene con getEntityManagerFactory() y se cierra al
+ * finalizar con close().
+ */
 public class JPAUtil {
-    private static final String PERSISTENCE_UNIT = "miJpa";
-    private static EntityManagerFactory emf;
 
+    private static final String PERSISTENCE_UNIT = "foodstorePU";
+
+    private static EntityManagerFactory emf;
 
     private JPAUtil() {
     }
