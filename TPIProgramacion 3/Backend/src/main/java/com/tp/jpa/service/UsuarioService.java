@@ -16,20 +16,35 @@ public class UsuarioService {
     public void crearUsuario() {
         System.out.println("=== Crear Usuario ===");
 
-        System.out.println("\nIngrese los dstos de usuario: ");
+        System.out.println("\nIngrese los datos de usuario: ");
 
         Usuario usuario = new Usuario();
 
         usuario.setNombre(InputUtil.leerString("Nombre: "));
         usuario.setApellido(InputUtil.leerString("Apellido: "));
         usuario.setCelular(InputUtil.leerString("Celular: "));
-        usuario.setMail(InputUtil.leerString("Mail: "));
-        usuario.setContraseña("Contraseña: ");
+
+        //Validacion para verificar si existe ya un usuario con ese mail
+
+        String mail = InputUtil.leerString("Mail: ");
+        Optional<Usuario> usuarioExistente = usuarioRepo.buscarPorMail(mail);
+
+        if (usuarioExistente.isPresent()) {
+            System.out.println("Ya existe un usuario con ese mail.");
+            Pausa();
+            return;
+        }
+        usuario.setMail(mail);
+
+        usuario.setContraseña(InputUtil.leerString("Contraseña: "));
+
         Rol rol = InputUtil.leerRol("Seleccione Rol: ");
         usuario.setRol(rol);
 
         Usuario userGuardado = usuarioRepo.guardar(usuario);
+
         System.out.println("Usuario creado: " + userGuardado);
+
         Pausa();
     }
 
@@ -57,17 +72,18 @@ public class UsuarioService {
 
             if(eliminado){
                 System.out.println("Usuario eliminado correctamente: " + usuario.getNombre() + " " + usuario.getApellido() + " " + usuario.getMail());
-                Pausa();
+
             }else{
                 System.out.println("Error al eliminar usuario.");
-                Pausa();
             }
+
 
         }else{
             System.out.println("No existe usuario con ese ID: " + id);
-            Pausa();
+
         }
 
+        Pausa();
     }
 
     public void editarUsuario() {
@@ -155,6 +171,54 @@ public class UsuarioService {
 
         Pausa();
 
+    }
+
+    public void listarUsuarios() {
+        List<Usuario> listaUsuarios = usuarioRepo.listarActivos();
+
+        System.out.println("=== Listar Usuarios ===");
+
+        if (listaUsuarios.isEmpty()) {
+            System.out.println("\nNo hay usuarios registrados.");
+            Pausa();
+            return;
+        }
+
+        System.out.println("\nUsuarios registrados:");
+        listaUsuarios.forEach(u -> {
+            System.out.println("ID: " + u.getId() + " | Nombre: " + u.getNombre() + " | Apellido: " +u.getApellido() + " | Mail:" + u.getMail());
+        });
+
+        Pausa();
+    }
+
+    public void buscarPorMail(){
+        List<Usuario> listaUsuarios = usuarioRepo.listarActivos();
+
+        System.out.println("=== Buscar Usuario por mail ===");
+
+        if (listaUsuarios.isEmpty()) {
+            System.out.println("\nNo hay usuarios registrados.");
+            Pausa();
+            return;
+        }
+
+        String mail = InputUtil.leerString("Ingrese mail a buscar: ");
+        Optional<Usuario> userMail = usuarioRepo.buscarPorMail(mail);
+
+        if (userMail.isPresent()) {
+            Usuario usuario = userMail.get();
+            System.out.println("\nDatos del usuario: ");
+            System.out.println("Nombre: " + usuario.getNombre());
+            System.out.println("Apellido: " + usuario.getApellido());
+            System.out.println("Celular: " + usuario.getCelular());
+            System.out.println("Mail: " + usuario.getMail());
+            System.out.println("Rol: " + usuario.getRol());
+        }else{
+            System.out.println("No existe usuario con ese mail.");
+        }
+
+        Pausa();
     }
 
     private void Pausa() {
