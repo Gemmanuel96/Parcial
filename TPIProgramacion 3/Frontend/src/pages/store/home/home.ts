@@ -23,8 +23,6 @@ function mostrarCategorias() {
         crearCategoria(categoria);
     });
 
-
-    // 🔹 Caso especial: Todos los productos
     const allProductos = document.querySelector<HTMLLIElement>("#all-products");
     allProductos?.addEventListener("click", () => {
         // Quitar activo de todas
@@ -115,7 +113,7 @@ if (btnSesion) {
 
 function renderPrincipal(producto: Product) {
 
-    const detalleBox = document.querySelector("#detalle-producto") as HTMLElement;
+    const detalleBox = document.querySelector("#detalleProducto") as HTMLElement;
     const productoBox = document.querySelector("#productos-box") as HTMLElement;
     const categoriaBox = document.querySelector(".box-categoria") as HTMLElement;
 
@@ -230,7 +228,7 @@ function crearControlesAgregar(): HTMLElement {
 
     btnVolver.addEventListener("click", () => {
 
-        const detalleBox = document.querySelector("#detalle-producto") as HTMLElement;
+        const detalleBox = document.querySelector("#detalleProducto") as HTMLElement;
         const productoBox = document.querySelector("#productos-box") as HTMLElement;
         const categoriaBox = document.querySelector(".box-categoria") as HTMLElement;
 
@@ -243,13 +241,13 @@ function crearControlesAgregar(): HTMLElement {
 }
 
 
-function crearArticuloProducto(producto: Product, categorias: ICategorias[]): HTMLElement {
+function articulo(producto: Product, categorias: ICategorias[]): HTMLElement {
 
-    const articulo = crearElemento('article', 'p-articulo');
-    const imagen: HTMLImageElement = crearElemento('img', 'p-imagen') as HTMLImageElement;
+    const articulo = crearElemento('article', 'articulo');
+    const imagen: HTMLImageElement = crearElemento('img', 'imagen') as HTMLImageElement;
     imagen.src = producto.imagen;
 
-    const boxDetalles = crearElemento('div', 'p-caracteristicas');
+    const boxDetalles = crearElemento('div', 'caracteristicas');
     const textoCategoria = producto.categorias
         .map((catId: any) => {
             const cat = categorias.find(c => c.id === catId);
@@ -257,20 +255,20 @@ function crearArticuloProducto(producto: Product, categorias: ICategorias[]): HT
         })
         .join(", ")
 
-    const categoria = crearElemento('p', 'p-categoria', textoCategoria);
-    const titulo = crearElemento('h3', 'p-titulo', producto.nombre);
-    const descripcion = crearElemento('p', 'p-descripcion', producto.descripcion);
+    const categoria = crearElemento('p', 'categoria', textoCategoria);
+    const titulo = crearElemento('h3', 'titulo', producto.nombre);
+    const descripcion = crearElemento('p', 'descripcion', producto.descripcion);
     const textoPrecio = `Precio $${producto.precio}`;
-    const precio = crearElemento('p', 'p-precio', textoPrecio);
+    const precio = crearElemento('p', 'precio', textoPrecio);
 
     let disponible: HTMLElement;
 
     if (producto.disponible) {
-        disponible = crearElemento('p', 'p-disponible', 'Disponible') as HTMLElement;
+        disponible = crearElemento('p', 'disponible', 'Disponible') as HTMLElement;
         disponible.style.backgroundColor = 'green';
 
     } else {
-        disponible = crearElemento('p', 'p-disponible', 'No disponible') as HTMLElement;
+        disponible = crearElemento('p', 'disponible', 'No disponible') as HTMLElement;
         disponible.style.backgroundColor = 'red';
     }
     boxDetalles.append(categoria, titulo, descripcion, precio, disponible);
